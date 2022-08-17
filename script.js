@@ -1,9 +1,14 @@
 $(document).ready(function () {
-
-    // jQuery methods go here...
-
     // Page heading
     $(".title").text("Hello! this is a password strength checker")
+
+    // CSS STYLING
+    $("#strengthBar").css({
+        "background-color": "yellow",
+        "width": "0%",
+        "height": "10px",
+        "border-radius": "10px"
+    });
 
     // Global declarations and initialization
     let numPattern = /([0-9])/;
@@ -13,14 +18,40 @@ $(document).ready(function () {
 
 
 
-    $("#strengthBar").css({
-        "background-color": "yellow",
-        "width": "0%",
-        "height": "10px"
-    });
-
+    // EVENTS LISTENING
     // check on each keyup
     $("#password").keyup(function () {
+        passwordStrength()
+    })
+
+
+    // Check if repeat password matches password
+    $("#rPassword").keyup(function () {
+        checkMatch()
+    })
+
+    // Password and repeat password visibility toggling
+    // password
+    $("#pswToggler").click(function () {
+        let password = $("#password");
+        let toggler = $(this)
+        togglePasswordVisibility(password, toggler)
+    })
+
+    // Repeat password
+    $("#rPswToggler").click(function () {
+        let password = $("#rPassword");
+        let toggler = $(this)
+        togglePasswordVisibility(password, toggler)
+    })
+
+
+
+
+
+    // FUNCTIONS
+    //Check password strength
+    let passwordStrength = function () {
         let passwordValue = $("#password").val();
         console.log(passwordValue.length)
         if (passwordValue.length < 8) {
@@ -74,10 +105,11 @@ $(document).ready(function () {
             });
         }
 
-    })
+    }
 
-    // Check if repeat password matches password
-    $("#rPassword").keyup(function () {
+
+    // Check whether password and repeat password matches
+    let checkMatch = function () {
         let passwordValue = $("#password").val();
         let repeatPasswordValue = $("#rPassword").val();
         if (repeatPasswordValue === passwordValue) {
@@ -89,17 +121,18 @@ $(document).ready(function () {
             console.log("Password: ", passwordValue)
             console.log("Repeat: ", repeatPasswordValue)
         }
-    })
+    }
 
-    $("#visibilityToggler").click(function () {
-        let password = $("#password");
-        if ($(password).attr("type") === "password") {
-            $(password).attr("type","text")
-            $(this).text("Hide")
+
+    // Passwords visibility toggling functions
+    let togglePasswordVisibility = function (password, toggler) {
+        if (password.attr("type") === "password") {
+            password.attr("type", "text")
+            toggler.text("Hide")
         } else {
-            $(password).attr("type","password")
-            $(this).text("View")
+            $(password).attr("type", "password")
+            toggler.text("View")
         }
-    })
+    }
 
 });

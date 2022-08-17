@@ -1,21 +1,45 @@
 "use strict";
 
 $(document).ready(function () {
-  // jQuery methods go here...
   // Page heading
-  $(".title").text("Hello! this is a password strength checker"); // Global declarations and initialization
+  $(".title").text("Hello! this is a password strength checker"); // CSS STYLING
+
+  $("#strengthBar").css({
+    "background-color": "yellow",
+    "width": "0%",
+    "height": "10px",
+    "border-radius": "10px"
+  }); // Global declarations and initialization
 
   var numPattern = /([0-9])/;
   var smallLetterPattern = /[a-z]/;
   var bigLetterPattern = /[A-Z]/;
-  var specialPattern = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
-  $("#strengthBar").css({
-    "background-color": "yellow",
-    "width": "0%",
-    "height": "10px"
-  }); // check on each keyup
+  var specialPattern = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/; // EVENTS LISTENING
+  // check on each keyup
 
   $("#password").keyup(function () {
+    passwordStrength();
+  }); // Check if repeat password matches password
+
+  $("#rPassword").keyup(function () {
+    checkMatch();
+  }); // Password and repeat password visibility toggling
+  // password
+
+  $("#pswToggler").click(function () {
+    var password = $("#password");
+    var toggler = $(this);
+    togglePasswordVisibility(password, toggler);
+  }); // Repeat password
+
+  $("#rPswToggler").click(function () {
+    var password = $("#rPassword");
+    var toggler = $(this);
+    togglePasswordVisibility(password, toggler);
+  }); // FUNCTIONS
+  //Check password strength
+
+  var passwordStrength = function passwordStrength() {
     var passwordValue = $("#password").val();
     console.log(passwordValue.length);
 
@@ -53,9 +77,10 @@ $(document).ready(function () {
         "width": "100%"
       });
     }
-  }); // Check if repeat password matches password
+  }; // Check whether password and repeat password matches
 
-  $("#rPassword").keyup(function () {
+
+  var checkMatch = function checkMatch() {
     var passwordValue = $("#password").val();
     var repeatPasswordValue = $("#rPassword").val();
 
@@ -68,16 +93,16 @@ $(document).ready(function () {
       console.log("Password: ", passwordValue);
       console.log("Repeat: ", repeatPasswordValue);
     }
-  });
-  $("#visibilityToggler").click(function () {
-    var password = $("#password");
+  }; // Passwords visibility toggling functions
 
-    if ($(password).attr("type") === "password") {
-      $(password).attr("type", "text");
-      $(this).text("Hide");
+
+  var togglePasswordVisibility = function togglePasswordVisibility(password, toggler) {
+    if (password.attr("type") === "password") {
+      password.attr("type", "text");
+      toggler.text("Hide");
     } else {
       $(password).attr("type", "password");
-      $(this).text("View");
+      toggler.text("View");
     }
-  });
+  };
 });
