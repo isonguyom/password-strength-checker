@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div>
+    <div class="container">
         <h1 class="title"></h1>
         <form action="" novalidate>
             <div class="form-control">
@@ -20,14 +20,15 @@
             </div>
             <div class="form-control">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="input password" placeholder="*********" required>
-            <div id="pswToggler">View</div>
+                <input type="password" name="password" id="password" class="input password" placeholder="*********"
+                    required>
+                <span id="pswToggler" class="psw-visibilty" title="Toggle to view or hide password">View</span>
                 <div id="strengthBar"></div>
             </div>
             <div class="form-control">
                 <label for="rPassword" class="form-label">Repeat Password</label>
                 <input type="password" name="rPassword" id="rPassword" class="input r-password" placeholder="*********">
-                <div id="rPswToggler">view</div>
+                <span id="rPswToggler" class="psw-visibilty" title="Toggle to view or hide password">View</span>
                 <div id="rPasswordTip"></div>
             </div>
 

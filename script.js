@@ -3,12 +3,55 @@ $(document).ready(function () {
     $(".title").text("Hello! this is a password strength checker")
 
     // CSS STYLING
+    $("body").css({
+        "padding": "15px"
+    })
+
+    $("div.container").css({
+        "margin": "auto"
+    })
+
+    $("div.form-control").css({
+        "margin-bottom": "15px",
+        "position": "relative"
+    })
+
+    $("label").css({
+        "display": "block",
+        "margin-bottom": "7px"
+    })
+
+    $("input").css({
+        "padding": "8px",
+        "width": "100%"
+    })
+
+    $("span.psw-visibilty").css({
+        "padding": "3px",
+        "border": "1px solid #E2DFD2",
+        "font-size": "0.8rem",
+        "cursor": "pointer",
+        "position": "absolute",
+        "right": "-15px",
+        "top": "35px"
+    })
+
     $("#strengthBar").css({
         "background-color": "yellow",
         "width": "0%",
         "height": "10px",
         "border-radius": "10px"
     });
+
+
+    $("#submitBtn").css({
+        "padding": "8px",
+        "cursor": "pointer",
+        "margin-left": "auto",
+        "margin-right": "auto"
+    });
+
+
 
     // Global declarations and initialization
     let numPattern = /([0-9])/;
@@ -43,6 +86,11 @@ $(document).ready(function () {
         let password = $("#rPassword");
         let toggler = $(this)
         togglePasswordVisibility(password, toggler)
+    })
+
+    // Submit form
+    $("#submitBtn").click(function () {
+        
     })
 
 
