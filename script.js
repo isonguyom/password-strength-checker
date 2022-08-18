@@ -54,11 +54,7 @@ $(document).ready(function () {
 
 
     // Global declarations and initialization
-    let numPattern = /([0-9])/;
-    let smallLetterPattern = /[a-z]/;
-    let bigLetterPattern = /[A-Z]/
-    let specialPattern = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/
-
+    let passwordRemark = ""
 
 
     // EVENTS LISTENING
@@ -89,8 +85,11 @@ $(document).ready(function () {
     })
 
     // Submit form
-    $("#submitBtn").click(function () {
-        
+    $("#submitBtn").click(function (e) {
+        e.preventDefault()
+
+        submitForm()
+
     })
 
 
@@ -101,12 +100,18 @@ $(document).ready(function () {
     //Check password strength
     let passwordStrength = function () {
         let passwordValue = $("#password").val();
+        let numPattern = /([0-9])/;
+        let smallLetterPattern = /[a-z]/;
+        let bigLetterPattern = /[A-Z]/
+        let specialPattern = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/
         console.log(passwordValue.length)
         if (passwordValue.length < 8) {
             $("#strengthBar").css({
                 "background-color": "red",
                 "width": "20%"
             });
+
+            passwordRemark = "Very Weak"
         }
 
         if (passwordValue.length >= 8) {
@@ -114,6 +119,8 @@ $(document).ready(function () {
                 "background-color": "orange",
                 "width": "40%"
             });
+
+            passwordRemark = "Weak"
         }
 
         if (passwordValue.length >= 8 &&
@@ -127,6 +134,8 @@ $(document).ready(function () {
                 "background-color": "yellow",
                 "width": "60%"
             });
+
+            passwordRemark = "Fair"
         }
 
         if (passwordValue.length >= 8 &&
@@ -142,6 +151,7 @@ $(document).ready(function () {
                 "background-color": "yellowgreen",
                 "width": "80%"
             });
+            passwordRemark = "Good"
         }
 
         if (passwordValue.length >= 8 && (passwordValue.match(smallLetterPattern) &&
@@ -151,6 +161,8 @@ $(document).ready(function () {
                 "background-color": "green",
                 "width": "100%"
             });
+
+            passwordRemark = "Very Good"
         }
 
     }
@@ -181,6 +193,55 @@ $(document).ready(function () {
             $(password).attr("type", "password")
             toggler.text("View")
         }
+    }
+
+
+    // display form details on submission
+    let submitForm = function () {
+        // Hide form container
+        $(".container").hide();
+
+        // Create details display div
+        let detailsPage = document.createElement("div")
+        detailsPage.id = "detailsPage"
+
+        // Get Email input
+        let emailValue = $("#email").val();
+        let displayEmail = ""
+        var emailPattern = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (emailValue == "") {
+            displayEmail = "<b>Email: </b>" + "No Email"
+        } else if (emailValue.match(emailPattern)) {
+            displayEmail = "<b>Email: </b>" + emailValue
+        } else {
+            displayEmail = "<b>Email: </b>" + emailValue + " *(Your email is not valid)"
+        }
+
+        // Get password strength
+        // let strengthIndicatorValue = $("#strengthBar").width();
+        let passwordValue = $("#password").val();
+        let strengthRemark = ""
+        if (passwordValue == "") {
+            strengthRemark = "<b>Password Strength: </b>" + "No Password"
+        } else {
+            strengthRemark = "<b>Password Strength: </b>" + passwordRemark
+        }
+
+
+        // Get repeat password match
+        let repeatPasswordValue = $("#rPassword").val();
+        let matchRemark = ""
+        if (repeatPasswordValue == "") {
+            matchRemark = "<b>Password Match: </b>" + "No value in repeat password"
+        } else if (repeatPasswordValue === passwordValue) {
+            matchRemark = "<b>Password Match: </b>" + "Passwords match"
+        } else {
+            matchRemark = "<b>Password Match: </b>" + "Passwords did not match"
+        }
+
+
+        detailsPage.innerHTML = displayEmail + "<br>" + strengthRemark + "<br>" + matchRemark + "<br><br><br><br><h3>Thanks for trying our app"
+        $("body").append(detailsPage);
     }
 
 });

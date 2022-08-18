@@ -44,10 +44,7 @@ $(document).ready(function () {
     "margin-right": "auto"
   }); // Global declarations and initialization
 
-  var numPattern = /([0-9])/;
-  var smallLetterPattern = /[a-z]/;
-  var bigLetterPattern = /[A-Z]/;
-  var specialPattern = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/; // EVENTS LISTENING
+  var passwordRemark = ""; // EVENTS LISTENING
   // check on each keyup
 
   $("#password").keyup(function () {
@@ -71,11 +68,18 @@ $(document).ready(function () {
     togglePasswordVisibility(password, toggler);
   }); // Submit form
 
-  $("#submitBtn").click(function () {}); // FUNCTIONS
+  $("#submitBtn").click(function (e) {
+    e.preventDefault();
+    submitForm();
+  }); // FUNCTIONS
   //Check password strength
 
   var passwordStrength = function passwordStrength() {
     var passwordValue = $("#password").val();
+    var numPattern = /([0-9])/;
+    var smallLetterPattern = /[a-z]/;
+    var bigLetterPattern = /[A-Z]/;
+    var specialPattern = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
     console.log(passwordValue.length);
 
     if (passwordValue.length < 8) {
@@ -83,6 +87,7 @@ $(document).ready(function () {
         "background-color": "red",
         "width": "20%"
       });
+      passwordRemark = "Very Weak";
     }
 
     if (passwordValue.length >= 8) {
@@ -90,6 +95,7 @@ $(document).ready(function () {
         "background-color": "orange",
         "width": "40%"
       });
+      passwordRemark = "Weak";
     }
 
     if (passwordValue.length >= 8 && (passwordValue.match(smallLetterPattern) && passwordValue.match(bigLetterPattern) || passwordValue.match(smallLetterPattern) && passwordValue.match(numPattern) || passwordValue.match(smallLetterPattern) && passwordValue.match(specialPattern) || passwordValue.match(bigLetterPattern) && passwordValue.match(numPattern) || passwordValue.match(bigLetterPattern) && passwordValue.match(specialPattern) || passwordValue.match(numPattern) && passwordValue.match(specialPattern))) {
@@ -97,6 +103,7 @@ $(document).ready(function () {
         "background-color": "yellow",
         "width": "60%"
       });
+      passwordRemark = "Fair";
     }
 
     if (passwordValue.length >= 8 && (passwordValue.match(smallLetterPattern) && passwordValue.match(bigLetterPattern) && passwordValue.match(numPattern) || passwordValue.match(smallLetterPattern) && passwordValue.match(bigLetterPattern) && passwordValue.match(specialPattern) || passwordValue.match(smallLetterPattern) && passwordValue.match(numPattern) && passwordValue.match(specialPattern) || passwordValue.match(bigLetterPattern) && passwordValue.match(numPattern) && passwordValue.match(specialPattern))) {
@@ -104,6 +111,7 @@ $(document).ready(function () {
         "background-color": "yellowgreen",
         "width": "80%"
       });
+      passwordRemark = "Good";
     }
 
     if (passwordValue.length >= 8 && passwordValue.match(smallLetterPattern) && passwordValue.match(bigLetterPattern) && passwordValue.match(numPattern) && passwordValue.match(specialPattern)) {
@@ -111,6 +119,7 @@ $(document).ready(function () {
         "background-color": "green",
         "width": "100%"
       });
+      passwordRemark = "Very Good";
     }
   }; // Check whether password and repeat password matches
 
@@ -139,5 +148,52 @@ $(document).ready(function () {
       $(password).attr("type", "password");
       toggler.text("View");
     }
+  }; // display form details on submission
+
+
+  var submitForm = function submitForm() {
+    // Hide form container
+    $(".container").hide(); // Create details display div
+
+    var detailsPage = document.createElement("div");
+    detailsPage.id = "detailsPage"; // Get Email input
+
+    var emailValue = $("#email").val();
+    var displayEmail = "";
+    var emailPattern = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+    if (emailValue == "") {
+      displayEmail = "<b>Email: </b>" + "No Email";
+    } else if (emailValue.match(emailPattern)) {
+      displayEmail = "<b>Email: </b>" + emailValue;
+    } else {
+      displayEmail = "<b>Email: </b>" + emailValue + " *(Your email is not valid)";
+    } // Get password strength
+    // let strengthIndicatorValue = $("#strengthBar").width();
+
+
+    var passwordValue = $("#password").val();
+    var strengthRemark = "";
+
+    if (passwordValue == "") {
+      strengthRemark = "<b>Password Strength: </b>" + "No Password";
+    } else {
+      strengthRemark = "<b>Password Strength: </b>" + passwordRemark;
+    } // Get repeat password match
+
+
+    var repeatPasswordValue = $("#rPassword").val();
+    var matchRemark = "";
+
+    if (repeatPasswordValue == "") {
+      matchRemark = "<b>Password Match: </b>" + "No value in repeat password";
+    } else if (repeatPasswordValue === passwordValue) {
+      matchRemark = "<b>Password Match: </b>" + "Passwords match";
+    } else {
+      matchRemark = "<b>Password Match: </b>" + "Passwords did not match";
+    }
+
+    detailsPage.innerHTML = displayEmail + "<br>" + strengthRemark + "<br>" + matchRemark + "<br><br><br><br><h3>Thanks for trying our app";
+    $("body").append(detailsPage);
   };
 });
