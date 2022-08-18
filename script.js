@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Page heading
-    $(".title").text("Hello! this is a password strength checker")
+    $(".title").text("Hello! This is a password strength checker")
 
     // CSS STYLING
     $("body").css({
@@ -173,11 +173,11 @@ $(document).ready(function () {
         let passwordValue = $("#password").val();
         let repeatPasswordValue = $("#rPassword").val();
         if (repeatPasswordValue === passwordValue) {
-            $("#rPasswordTip").text("Password are similar")
+            $("#rPasswordTip").text("Passwords are similar")
             console.log("Password: ", passwordValue)
             console.log("Repeat: ", repeatPasswordValue)
         } else {
-            $("#rPasswordTip").text("Password are not similar")
+            $("#rPasswordTip").text("Passwords are not similar")
             console.log("Password: ", passwordValue)
             console.log("Repeat: ", repeatPasswordValue)
         }
@@ -205,16 +205,19 @@ $(document).ready(function () {
         let detailsPage = document.createElement("div")
         detailsPage.id = "detailsPage"
 
+        // Details page title
+        let detailsTitle = "<h3>Password Strength Checker Summary</h3>"
+
         // Get Email input
         let emailValue = $("#email").val();
         let displayEmail = ""
         var emailPattern = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (emailValue == "") {
-            displayEmail = "<b>Email: </b>" + "No Email"
+            displayEmail = "<b>Email: </b>" + "No Email."
         } else if (emailValue.match(emailPattern)) {
             displayEmail = "<b>Email: </b>" + emailValue
         } else {
-            displayEmail = "<b>Email: </b>" + emailValue + " *(Your email is not valid)"
+            displayEmail = "<b>Email: </b>" + emailValue + " *(Your email address is invalid.)"
         }
 
         // Get password strength
@@ -222,9 +225,9 @@ $(document).ready(function () {
         let passwordValue = $("#password").val();
         let strengthRemark = ""
         if (passwordValue == "") {
-            strengthRemark = "<b>Password Strength: </b>" + "No Password"
+            strengthRemark = "<b>Password Strength: </b>" + "NO PASSWORD."
         } else {
-            strengthRemark = "<b>Password Strength: </b>" + passwordRemark
+            strengthRemark = "<b>Password Strength: </b>" + passwordRemark.toUpperCase()
         }
 
 
@@ -232,15 +235,15 @@ $(document).ready(function () {
         let repeatPasswordValue = $("#rPassword").val();
         let matchRemark = ""
         if (repeatPasswordValue == "") {
-            matchRemark = "<b>Password Match: </b>" + "No value in repeat password"
+            matchRemark = "<b>Password Match: </b>" + "No value in repeat password field."
         } else if (repeatPasswordValue === passwordValue) {
-            matchRemark = "<b>Password Match: </b>" + "Passwords match"
+            matchRemark = "<b>Password Match: </b>" + "Passwords match."
         } else {
-            matchRemark = "<b>Password Match: </b>" + "Passwords did not match"
+            matchRemark = "<b>Password Match: </b>" + "Passwords did not match."
         }
 
 
-        detailsPage.innerHTML = displayEmail + "<br>" + strengthRemark + "<br>" + matchRemark + "<br><br><br><br><h3>Thanks for trying our app"
+        detailsPage.innerHTML = detailsTitle + "<br>" + displayEmail + "<br>" + strengthRemark + "<br>" + matchRemark + "<br><br><br><br><h3>Thanks for trying our app"
         $("body").append(detailsPage);
     }
 
